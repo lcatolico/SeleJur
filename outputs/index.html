@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndicaJur - Indicações jurídicas com critério</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --off:#FBFAF7;
+  --creme:#F4F0E6;
+  --grafite:#071D49;
+  --grafite-medio:#26344F;
+  --grafite-suave:#5E6675;
+  --dourado:#C49A2C;
+  --dourado-claro:#E7D28A;
+  --dourado-bg:#FFF8E6;
+  --borda:#D9D2C3;
+  --branco:#ffffff;
+  --verde:#2a6040;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--grafite);background:var(--branco);overflow-x:hidden}
+a{text-decoration:none}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:grid;grid-template-columns:190px 1fr auto;align-items:center;gap:22px;
+  padding:1rem 3.2rem;
+  background:rgba(249,248,246,.94);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--borda);
+}
+.logo{display:flex;align-items:center;gap:10px;color:var(--grafite);min-width:0}
+.logo span:not(.logo-mark){font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;letter-spacing:-.9px;line-height:1}
+.logo-mark{width:40px;height:40px;border-radius:12px;background:var(--grafite);color:var(--dourado-claro);display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:800;box-shadow:0 10px 24px rgba(7,29,73,.14)}
+.logo em{font-style:normal;color:var(--dourado)}
+.nav-links{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:nowrap;white-space:nowrap}
+.nav-links a{padding:8px 10px;border-radius:6px;font-size:13px;font-weight:600;color:var(--grafite-suave);transition:all .15s}
+.nav-links a:hover{color:var(--grafite);background:var(--creme)}
+.nav-actions{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.nav-actions a{padding:9px 14px;border-radius:7px;font-size:13px;font-weight:700;transition:all .15s}
+.btn-rec{background:var(--grafite)!important;color:var(--branco)!important;border-radius:7px!important;border:1px solid var(--grafite)!important}
+.btn-cand{border:1.5px solid var(--borda)!important;color:var(--grafite)!important;border-radius:7px!important;background:var(--branco)}
+.btn-cand:hover{border-color:var(--dourado)!important;color:var(--dourado)!important;background:var(--dourado-bg)!important}
+
+.hero{
+  min-height:680px;
+  display:flex;align-items:center;
+  padding:112px 4rem 76px;
+  background:var(--off);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-280px;right:-220px;width:780px;height:780px;
+  background:radial-gradient(circle,rgba(184,151,58,.08) 0%,transparent 66%);
+  border-radius:50%;pointer-events:none;
+}
+.hero-inner{
+  max-width:1120px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 420px;gap:64px;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--dourado-bg);border:1px solid var(--dourado-claro);
+  color:var(--dourado);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 13px;border-radius:99px;margin-bottom:1rem;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,4.4vw,58px);
+  font-weight:600;line-height:.98;letter-spacing:-1.8px;
+  color:var(--grafite);margin-bottom:1rem;
+}
+.hero-title em{font-style:italic;color:var(--dourado)}
+.hero-sub{font-size:15px;color:var(--grafite-suave);line-height:1.65;font-weight:400;margin-bottom:1.8rem;max-width:470px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-p,.btn-s,.btn-cw,.btn-co{
+  padding:13px 26px;border-radius:8px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;
+  transition:all .2s;border:2px solid transparent;display:inline-flex;align-items:center;justify-content:center;
+}
+.btn-p{background:var(--grafite);color:var(--branco);border-color:var(--grafite)}
+.btn-p:hover{background:var(--grafite-medio);border-color:var(--grafite-medio);transform:translateY(-1px)}
+.btn-s{background:transparent;color:var(--grafite);border-color:var(--borda)}
+.btn-s:hover{border-color:var(--dourado);color:var(--dourado);background:var(--dourado-bg)}
+
+.profile-card{
+  background:var(--branco);border:1px solid var(--borda);border-radius:20px;padding:28px;
+  box-shadow:0 24px 70px rgba(30,30,30,.08);
+}
+.card-top{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--borda);margin-bottom:18px}
+.avatar{width:48px;height:48px;border-radius:12px;background:var(--grafite);color:var(--dourado-claro);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.card-name{font-size:16px;font-weight:700;color:var(--grafite)}
+.card-sub{font-size:12px;color:var(--grafite-suave);margin-top:2px;line-height:1.4}
+.selos{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.selo{font-size:10px;font-weight:800;padding:4px 10px;border-radius:99px}
+.sv{background:#F4F0E6;color:#071D49;border:1px solid #D9D2C3}
+.sr{background:#f0f8f0;color:#2a6040;border:1px solid #a0d0b0}
+.sd{background:var(--dourado-bg);color:var(--dourado);border:1px solid var(--dourado-claro)}
+.disc-box{background:var(--creme);border:1px solid var(--borda);border-radius:10px;padding:13px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.disc-letter{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--grafite);line-height:1}
+.disc-text{font-size:12px;color:var(--grafite-suave);line-height:1.45}
+.disc-text strong{color:var(--grafite);display:block;font-size:13px;margin-bottom:2px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.disp{font-size:11px;font-weight:800;color:var(--verde);background:#f0f8f0;border:1px solid #a0d0b0;padding:5px 12px;border-radius:99px}
+.ver{font-size:12px;font-weight:800;color:var(--grafite);padding:7px 14px;border-radius:7px;border:1.5px solid var(--borda);transition:all .15s}
+.ver:hover{background:var(--grafite);color:white;border-color:var(--grafite)}
+
+.stats-bar{background:var(--grafite);padding:36px 4rem;display:flex;justify-content:center;gap:68px;flex-wrap:wrap}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:var(--branco);line-height:1;text-align:center}
+.stat-label{font-size:12px;color:rgba(255,255,255,.54);margin-top:4px;font-weight:500;text-align:center}
+
+.sec{padding:96px 4rem}
+.sec-inner{max-width:1120px;margin:0 auto}
+.bg-off{background:var(--off)}
+.bg-creme{background:var(--creme)}
+.bg-dark{background:var(--grafite)}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--dourado);margin-bottom:1rem}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,50px);font-weight:600;letter-spacing:-1.4px;
+  color:var(--grafite);line-height:1.08;margin-bottom:1rem;
+}
+.sec-title em{font-style:italic;color:var(--dourado)}
+.sec-sub{font-size:16px;color:var(--grafite-suave);line-height:1.7;max-width:620px}
+.bg-dark .sec-title{color:white}
+.bg-dark .sec-title em{color:var(--dourado-claro)}
+.bg-dark .sec-sub{color:rgba(255,255,255,.58)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3rem}
+.step{padding:28px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.step-num{width:34px;height:34px;border-radius:8px;background:var(--dourado);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin-bottom:14px}
+.step-title{font-size:15px;font-weight:800;color:white;margin-bottom:8px}
+.step-desc{font-size:13px;color:rgba(255,255,255,.58);line-height:1.65}
+
+.selos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:3rem}
+.selo-card{background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:22px;display:flex;gap:16px;align-items:flex-start}
+.selo-icon{width:40px;height:40px;border-radius:10px;background:var(--creme);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:var(--dourado);font-weight:800}
+.selo-title{font-size:14px;font-weight:800;color:var(--grafite);margin-bottom:4px}
+.selo-desc{font-size:13px;color:var(--grafite-suave);line-height:1.55}
+
+.disc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:3rem}
+.disc-card{border-radius:14px;padding:20px;border:1px solid var(--borda)}
+.disc-big{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;line-height:1;margin-bottom:8px}
+.disc-name{font-size:13px;font-weight:800;margin-bottom:6px}
+.disc-desc{font-size:12px;line-height:1.6}
+.d-D{background:#fdf5f5}.d-D .disc-big,.d-D .disc-name{color:#a02020}.d-D .disc-desc{color:#703030}
+.d-I{background:#fdf8ee}.d-I .disc-big,.d-I .disc-name{color:#a07010}.d-I .disc-desc{color:#705010}
+.d-S{background:#f2faf5}.d-S .disc-big,.d-S .disc-name{color:#1a6a3a}.d-S .disc-desc{color:#0a4a2a}
+.d-C{background:var(--creme)}.d-C .disc-big,.d-C .disc-name{color:var(--grafite)}.d-C .disc-desc{color:var(--grafite-suave)}
+
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:3rem}
+.tool-card{background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:24px}
+.tool-title{font-size:15px;font-weight:800;color:var(--grafite);margin-bottom:7px}
+.tool-desc{font-size:13px;color:var(--grafite-suave);line-height:1.6;margin-bottom:12px}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;font-weight:800;padding:4px 9px;border-radius:99px;background:var(--creme);color:var(--grafite-medio)}
+
+.capture-panel{background:var(--branco);border:1px solid var(--borda);border-radius:18px;padding:24px;box-shadow:0 18px 46px rgba(30,30,30,.06);margin-top:1.8rem;display:grid;grid-template-columns:1.25fr .9fr;gap:18px;align-items:stretch;max-width:980px}
+.capture-main,.capture-side{border-radius:14px;padding:22px;border:1px solid var(--borda)}
+.capture-main{background:var(--grafite);color:var(--branco);border-color:transparent}
+.capture-side{background:var(--off)}
+.capture-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dourado-claro);margin-bottom:10px}
+.capture-side .capture-kicker{color:var(--dourado)}
+.capture-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:650;line-height:1.05;letter-spacing:-.8px;margin-bottom:8px}
+.capture-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.68);max-width:520px}
+.capture-side .capture-text{color:var(--grafite-suave)}
+.capture-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.capture-main .btn-s{color:var(--branco);border-color:rgba(255,255,255,.28)}
+.capture-main .btn-s:hover{background:rgba(255,255,255,.08);color:var(--branco);border-color:var(--branco)}
+.capture-note{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;margin-top:12px}
+
+.cta{background:var(--grafite);text-align:center}
+.cta .sec-sub{margin:0 auto 2.5rem}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-cw{background:white;color:var(--grafite);border-color:white}
+.btn-cw:hover{background:transparent;color:white}
+.btn-co{background:transparent;color:white;border-color:rgba(255,255,255,.35)}
+.btn-co:hover{border-color:white;background:rgba(255,255,255,.08)}
+footer{background:#061733;padding:46px 4rem;color:rgba(255,255,255,.38);font-size:13px}
+.foot-row{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:700;color:rgba(255,255,255,.74);letter-spacing:-.5px}
+.foot-logo em{font-style:normal;color:var(--dourado-claro)}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{color:rgba(255,255,255,.38);transition:color .15s}
+.foot-links a:hover{color:rgba(255,255,255,.8)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .65s ease forwards;opacity:0}
+.fu1{animation-delay:.1s}.fu2{animation-delay:.25s}.fu3{animation-delay:.4s}
+
+@media(max-width:900px){
+  nav{grid-template-columns:1fr;gap:12px;padding:1rem 1.5rem;position:relative}
+  .nav-links{justify-content:flex-start;overflow-x:auto;width:100%;padding-bottom:2px}
+  .nav-actions{justify-content:flex-start}
+  .hero{min-height:auto;padding:72px 1.5rem 48px}
+  .hero-inner{grid-template-columns:1fr;gap:34px}
+  .steps,.selos-grid,.disc-row,.tools{grid-template-columns:1fr}
+  .capture-panel{grid-template-columns:1fr}
+  .stats-bar{gap:32px;padding:34px 1.5rem}
+  .sec{padding:64px 1.5rem}
+  footer{padding:40px 1.5rem}
+}
+@media(max-width:560px){
+  .hero{padding-top:34px}
+  .nav-links a:nth-child(n+4){display:none}
+  .nav-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .nav-actions a{text-align:center}
+  .hero-title{font-size:40px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="logo" aria-label="IndicaJur"><span class="logo-mark">IJ</span><span>Indica<em>Jur</em></span></a>
+  <div class="nav-links">
+    <a href="#como">Como funciona</a>
+    <a href="#avisos">Avisos</a>
+    <a href="#selos">Certificações</a>
+    <a href="#disc">Perfil DISC</a>
+    <a href="#recrutadores">Recrutadores</a>
+  </div>
+  <div class="nav-actions">
+    <a href="https://jurisbank.streamlit.app/?p=inicio" class="btn-cand">Sou candidato</a>
+    <a href="https://jurisbank.streamlit.app/?p=recrutador" class="btn-rec">Sou recrutador</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag fu fu1">Sistema de Justiça</div>
+      <h1 class="hero-title fu fu1">Uma ponte.<br><em>Novas oportunidades.</em></h1>
+      <p class="hero-sub fu fu2">Ligando candidatos a cargos de assessoria jurídica em Tribunais, Ministérios Públicos, Defensorias e Procuradorias.</p>
+      <div class="hero-btns fu fu2">
+        <a href="https://jurisbank.streamlit.app/?p=cadastro" class="btn-p">Cadastrar CV gratis</a>
+        <a href="https://jurisbank.streamlit.app/?p=recrutador" class="btn-s">Sou recrutador</a>
+      </div>
+    </div>
+    <div class="profile-card fu fu3">
+      <div class="card-top">
+        <div class="avatar">RC</div>
+        <div>
+          <div class="card-name">Rafael Costa</div>
+          <div class="card-sub">Pós-graduado em Direito Público · UFMG · MP</div>
+        </div>
+      </div>
+      <div class="selos">
+        <span class="selo sv">Verificado</span>
+        <span class="selo sr">Recomendado</span>
+        <span class="selo sd">Destaque</span>
+      </div>
+      <div class="disc-box">
+        <span class="disc-letter">C</span>
+        <div class="disc-text"><strong>Conformidade</strong>Analítico, preciso e orientado à qualidade. Excelente em pesquisa jurídica.</div>
+      </div>
+      <div class="card-foot">
+        <span class="disp">Disponível</span>
+        <a href="https://jurisbank.streamlit.app/?p=inicio" class="ver">Ver exemplo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div><div class="stat-num">100%</div><div class="stat-label">E-mails institucionais verificados</div></div>
+  <div><div class="stat-num">4</div><div class="stat-label">Selos de certificação</div></div>
+  <div><div class="stat-num">20</div><div class="stat-label">Perguntas comportamentais</div></div>
+</div>
+
+<section id="avisos" class="sec bg-off">
+  <div class="sec-inner">
+    <div class="eyebrow">Ponto de partida</div>
+    <h2 class="sec-title">Entre no radar<br><em>dos Seletivos.</em></h2>
+    <p class="sec-sub">O IndicaJur existe para reduzir ruído: candidatos organizam um perfil profissional sério; recrutadores encontram pessoas compatíveis com critérios objetivos.</p>
+    <div class="capture-panel">
+      <div class="capture-main">
+        <div class="capture-kicker">Para candidatos</div>
+        <div class="capture-title">Receba oportunidades compatíveis e prepare seu perfil.</div>
+        <p class="capture-text">Receba avisos de Seletivos compativeis ou complete seu curriculo juridico para se inscrever e aparecer no banco de talentos.</p>
+        <div class="capture-actions">
+          <a href="https://jurisbank.streamlit.app/?p=avisos" class="btn-p">Receber avisos</a>
+          <a href="https://jurisbank.streamlit.app/?p=cadastro" class="btn-s">Cadastrar CV gratis</a>
+        </div>
+        <div class="capture-note">A inscrição em Seletivos exige cadastro completo e autorização de compartilhamento do perfil.</div>
+      </div>
+      <div class="capture-side">
+        <div class="capture-kicker">Para recrutadores</div>
+        <div class="capture-title">Busque com critério, não por tentativa.</div>
+        <p class="capture-text">Acesse candidatos por área, instituição de interesse, experiência, sistemas, disponibilidade e etapas de Seletivo.</p>
+        <div class="capture-actions">
+          <a href="https://jurisbank.streamlit.app/?p=recrutador" class="btn-s">Sou recrutador</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como" class="sec bg-dark">
+  <div class="sec-inner">
+    <div class="eyebrow">Como funciona</div>
+    <h2 class="sec-title">Simples para o candidato.<br><em>Preciso para o recrutador.</em></h2>
+    <p class="sec-sub">O candidato organiza sua trajetória. O recrutador acessa perfis comparáveis, com filtros objetivos e informações relevantes para uma escolha segura.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-title">Perfil profissional</div><div class="step-desc">Formação, experiência, sistemas, áreas de atuação, instituições de interesse, disponibilidade, foto e currículo.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-title">Selos e validações</div><div class="step-desc">OAB, recomendação, destaque e experiência organizam sinais de confiança sem substituir a análise do recrutador.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-title">Seletivos estruturados</div><div class="step-desc">Seletivos com prazo, requisitos, etapas previstas, organização do fluxo e comunicação aos candidatos compatíveis.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="selos" class="sec bg-off">
+  <div class="sec-inner">
+    <div class="eyebrow">Certificações</div>
+    <h2 class="sec-title">Sinais de confiança.<br><em>Sem autoclassificação vazia.</em></h2>
+    <p class="sec-sub">Os selos funcionam como indícios organizados para triagem. A decisão segue sendo humana, técnica e contextual.</p>
+    <div class="selos-grid">
+      <div class="selo-card"><div class="selo-icon">V</div><div><div class="selo-title">Verificado</div><div class="selo-desc">Indica OAB ativa ou validação cadastral relevante para o perfil jurídico.</div></div></div>
+      <div class="selo-card"><div class="selo-icon">R</div><div><div class="selo-title">Recomendado</div><div class="selo-desc">Carta ou avaliação de autoridade/referência vinculada à atuação profissional do candidato.</div></div></div>
+      <div class="selo-card"><div class="selo-icon">D</div><div><div class="selo-title">Destaque</div><div class="selo-desc">Avaliação formal de desempenho ou evidência documental de atuação diferenciada.</div></div></div>
+      <div class="selo-card"><div class="selo-icon">E</div><div><div class="selo-title">Experiente</div><div class="selo-desc">Dois ou mais anos de experiência informada e organizada no perfil profissional.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="disc" class="sec bg-dark">
+  <div class="sec-inner">
+    <div class="eyebrow">Perfil comportamental</div>
+    <h2 class="sec-title">Além do currículo.<br><em>Com a cautela necessária.</em></h2>
+    <p class="sec-sub">O DISC é apresentado como indicador de apoio. Ele complementa currículo, entrevista estruturada, teste prático e avaliação da experiência, mas não decide sozinho.</p>
+    <div class="disc-row">
+      <div class="disc-card d-D"><div class="disc-big">D</div><div class="disc-name">Dominante</div><div class="disc-desc">Direto, decidido e orientado a resultados. Pode funcionar bem sob pressão.</div></div>
+      <div class="disc-card d-I"><div class="disc-big">I</div><div class="disc-name">Influente</div><div class="disc-desc">Comunicativo e relacional. Pode contribuir em ambientes com atendimento e articulação.</div></div>
+      <div class="disc-card d-S"><div class="disc-big">S</div><div class="disc-name">Estável</div><div class="disc-desc">Paciente e confiável. Pode se destacar em rotinas consistentes e colaborativas.</div></div>
+      <div class="disc-card d-C"><div class="disc-big">C</div><div class="disc-name">Conformidade</div><div class="disc-desc">Analítico e preciso. Pode se destacar em pesquisa, revisão e qualidade técnica.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="recrutadores" class="sec bg-off">
+  <div class="sec-inner">
+    <div class="eyebrow">Para recrutadores</div>
+    <h2 class="sec-title">Menos ruído.<br><em>Mais critério.</em></h2>
+    <p class="sec-sub">A plataforma foi pensada para autoridades e equipes que precisam de informação organizada, útil e confiável, sem transformar a escolha em burocracia desnecessária.</p>
+    <div class="tools">
+      <div class="tool-card"><div class="tool-title">Banco de talentos</div><div class="tool-desc">Busca por área, instituição de interesse, disponibilidade, OAB, experiência, sistemas e perfil comportamental.</div><div class="tags"><span class="tag">Filtros</span><span class="tag">Comparação</span></div></div>
+      <div class="tool-card"><div class="tool-title">Processos seletivos</div><div class="tool-desc">Criação de chamadas com requisitos, etapas previstas, organização do fluxo, entrevista, teste de escrita e comunicação dirigida.</div><div class="tags"><span class="tag">Critérios</span><span class="tag">Etapas</span></div></div>
+      <div class="tool-card"><div class="tool-title">Comunicação dirigida</div><div class="tool-desc">Base para alertas a candidatos ativos conforme área, interesse institucional e compatibilidade com a chamada.</div><div class="tags"><span class="tag">Avisos</span><span class="tag">Interesse</span></div></div>
+      <div class="tool-card"><div class="tool-title">Favoritos e notas</div><div class="tool-desc">Organização privada de candidatos, observações e acompanhamento do recrutador durante a análise.</div><div class="tags"><span class="tag">Privado</span></div></div>
+      <div class="tool-card"><div class="tool-title">LGPD e transparência</div><div class="tool-desc">Compartilhamento de perfil condicionado a consentimento e uso claro das informações profissionais.</div><div class="tags"><span class="tag">Consentimento</span></div></div>
+      <div class="tool-card"><div class="tool-title">Decisão humana</div><div class="tool-desc">O IndicaJur organiza informações e reduz ruído. A escolha permanece contextual, motivada e sob responsabilidade do recrutador.</div><div class="tags"><span class="tag">Apoio</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cta">
+  <div class="sec-inner">
+    <div class="eyebrow">Comece agora</div>
+    <h2 class="sec-title">A indicação certa,<br><em>no momento certo.</em></h2>
+    <p class="sec-sub">Cadastro gratuito para candidatos. Acesso de recrutadores mediante aprovação.</p>
+    <div class="cta-btns">
+      <a href="https://jurisbank.streamlit.app/?p=cadastro" class="btn-cw">Cadastrar CV gratis</a>
+      <a href="https://jurisbank.streamlit.app/?p=recrutador" class="btn-co">Sou recrutador</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-row">
+    <div class="foot-logo">Indica<em>Jur</em></div>
+    <div class="foot-links">
+      <a href="https://jurisbank.streamlit.app/?p=privacidade">Privacidade</a>
+      <a href="https://jurisbank.streamlit.app/?p=termos">Termos</a>
+      <a href="https://jurisbank.streamlit.app/?p=candidatos">Candidatos</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
