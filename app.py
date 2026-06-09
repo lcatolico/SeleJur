@@ -430,13 +430,20 @@ def conectar_sheets():
         pl = cl.open(st.secrets["sheet_name"])
     else:
         pl = cl.open("SeleJur")
+    # Diagnóstico: lista abas disponíveis para facilitar depuração
+    nomes_abas = [ws.title for ws in pl.worksheets()]
+    def _get_ws(nome):
+        for ws in pl.worksheets():
+            if ws.title.strip().lower() == nome.strip().lower():
+                return ws
+        raise Exception(f"Aba '{nome}' não encontrada. Abas disponíveis: {nomes_abas}")
     return {
-        "candidatos": pl.worksheet("candidatos"),
-        "recrutadores": pl.worksheet("recrutadores"),
-        "chamadas": pl.worksheet("chamadas"),
-        "interesses": pl.worksheet("interesses"),
-        "recomendacoes": pl.worksheet("recomendacoes"),
-        "tokens": pl.worksheet("tokens"),
+        "candidatos": _get_ws("candidatos"),
+        "recrutadores": _get_ws("recrutadores"),
+        "chamadas": _get_ws("chamadas"),
+        "interesses": _get_ws("interesses"),
+        "recomendacoes": _get_ws("recomendacoes"),
+        "tokens": _get_ws("tokens"),
     }
 
 abas = conectar_sheets()
